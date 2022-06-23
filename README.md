@@ -18,5 +18,5 @@ Source: https://commons.wikimedia.org/wiki/Commons:Quality_images#/media/File:Gu
 
 ![](images/image.jpg)
 ![](images/image-r8-p0-mavg.svg)
-![](images/image-r32-p128-mavg.svg)
+![](images/image-r16-p64-mavg.svg)
 ![](images/image-r4-p64-mavg.svg)
