@@ -23,7 +23,7 @@ def hexify(v, p):
   return ("0" + hex(closest(v, p)).replace("0x", ""))[-2:]
 
 def convert(filename, r, p, m):
-  with Image.open(filename).convert('RGB') as image:
+  with Image.open(filename).convert('RGBA') as image:
     groups = {}
     w = round_up(image.width, r)
     h = round_up(image.height, r)
@@ -38,7 +38,7 @@ def convert(filename, r, p, m):
                 [hexify(v, p) for v in image.getpixel((xx, yy))]))
           rgb = most_frequent(pixels)
         else:
-          cr, cg, cb, px_count = 0, 0, 0, 0
+          cr, cg, cb, ca, px_count = 0, 0, 0, 0, 0
           for xx in range(x - r, min(x + r, image.width)):
             for yy in range(y - r, min(y + r, image.height)):
               px_count += 1
@@ -46,8 +46,9 @@ def convert(filename, r, p, m):
               cr += px[0]
               cg += px[1]
               cb += px[2]
+              ca += px[3]
           rgb = "".join(
-                [hexify(v / px_count, p) for v in (cr, cg, cb)])
+                [hexify(v / px_count, p) for v in (cr, cg, cb, ca)])
         dot = draw.Circle(x, h - y, r, fill=f"#{rgb}")
         append_dict(groups, f"dot{rgb}", dot)
     for group in groups.values():
