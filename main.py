@@ -39,7 +39,7 @@ def convert(path, r, p, m):
             for yy in range(y - r, min(y + r, image.height)):
               pixels.append("".join(
                 [hexify(v, p) for v in image.getpixel((xx, yy))]))
-          rgb = most_frequent(pixels)
+          rgba = most_frequent(pixels)
         else:
           cr, cg, cb, ca, px_count = 0, 0, 0, 0, 0
           for xx in range(x - r, min(x + r, image.width)):
@@ -50,10 +50,11 @@ def convert(path, r, p, m):
               cg += px[1]
               cb += px[2]
               ca += px[3]
-          rgb = "".join(
+          rgba = "".join(
                 [hexify(v / px_count, p) for v in (cr, cg, cb, ca)])
-        dot = draw.Circle(x, h - y, r, fill=f"#{rgb}")
-        append_dict(groups, f"dot{rgb}", dot)
+        dot = draw.Circle(x, h - y, r, 
+          fill=f"#{rgba[:6]}", fill_opacity=int(rgba[6:], base=16)/255)
+        append_dict(groups, f"circle{rgba}", dot)
     for group in groups.values():
       d.append(draw.Group(group))
     name = f"{path.split('.')[0]}-r{r}-p{p}-m{m}.svg"
